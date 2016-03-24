@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Show date and time in other time zones
+
+#set -x
+
+search=$1
+
+zoneinfo=/usr/share/zoneinfo/posix/
+format='%a %F %T'
+
+find $zoneinfo  \
+    | egrep -i "/$search" \
+    | while read z
+      do
+          d=$(TZ=$z date +"$format")
+          printf "%-34s %23s\n" ${z#$zoneinfo} "$d"
+      done
